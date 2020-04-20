@@ -1,0 +1,36 @@
+body{
+    color:#333;
+    max-width: 640px;
+    margin:0 auto;
+    padding: 0 16px;
+    font-family: Arial, Helvetica, sans-serif;
+
+    display:flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.main-content{
+    flex-grow: 1;
+}
+
+header h1{
+    font-size: 48px;
+    color: #000000;
+    margin-top:16px;
+    margin-bottom:32px;
+}
+header a{
+    text-decoration: none;
+    color: #333333;;
+    margin-right: 16px;
+}
+footer{
+    color:#888;
+    margin-top: 16px;
+    border-top: 1px solid #eee;
+    padding: 16px 0;
+}
+img{
+    width:250px;
+}
