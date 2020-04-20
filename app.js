@@ -1,4 +1,4 @@
-// const fetch = require('node-fetch');
+
 
 // fetch("http://api.openweathermap.org/data/2.5/weather?q=mogok&appid=e0d808e3bb75f65ce0d6df3c90a058d5")
 // .then(data => data.json())
@@ -13,6 +13,7 @@
 // .catch(e => console.error(e))
 
 //links.mead.io/pic3
+const fetch = require('node-fetch');
 const express = require('express');
 const path = require('path');
 const hbs = require('hbs');
@@ -57,21 +58,46 @@ app.get('/about', (req,res) => {
 })
 
 app.get('/weather', (req,res) => {
-    res.send({
-        forecast:'cloudy',
-        location:'mogok'
+    if(!req.query.address){
+        return res.send({
+            error:'A address must be provided!'
+        })
+    }
 
-    })
+
+    fetch(`http://api.openweathermap.org/data/2.5/weather?q=${req.query.address}&appid=e0d808e3bb75f65ce0d6df3c90a058d5`)
+    .then(data => data.json())
+    .then(obj => {
+        if(obj["cod"] != '404')
+        {
+            res.send({
+                forecast:`It has ${obj.weather[0]['description']}`,
+                location: req.query.address
+            })
+        }else{
+            res.send({
+                error:'Fail'
+            })
+        }
+        
+})
+    .catch(e => console.log(e))
+
 })
 
-
-
+app.get('/help/*', (req,res) => {
+    res.render('notFound', {
+        title: 'My 404 page',
+        message: 'Page not found'
+    })
+})
 app.get('*', (req,res) => {
     res.render('notFound', {
         title: 'My 404 page',
         message:'Page not found'
     })
 })
+
 app.listen(3000,() => {
     console.log(`Server is listening on port 3000`)
 })
